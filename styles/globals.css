@@ -1,0 +1,36 @@
+@tailwind base;
+
+@layer base {
+  @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Palanquin+Dark:wght@600&display=swap');
+
+  body {
+    @apply font-pt
+  }
+
+  input,
+  select {
+    @apply outline-0 focus:ring-transparent focus:outline-none ring-transparent shadow-none
+  }
+
+  img,
+  video {
+    @apply max-w-none
+  }
+
+  img,
+  svg,
+  video {
+    @apply max-w-none
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+#__next {
+  @apply w-full h-full;
+}
+
+body{
+  @apply bg-f5f3f4
+}
