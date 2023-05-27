@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useState, useRef, ChangeEvent, DragEvent, CSSProperties } from 'react';
-import { IconTextSize } from "@tabler/icons-react";
+import { IconPencilPlus, IconPhotoDown, IconTextSize } from "@tabler/icons-react";
 import { Checkbox, ColorInput, Select } from '@mantine/core';
 
 
@@ -185,7 +185,7 @@ export default function Index() {
                     onDrag={(event) => handleTextFieldDrop(event, field.id)}
                     ref={handleTextFieldRef}
                     style={textFieldStyle}
-                    className='min-w-[100px] min-h-[40px] flex justify-center items-center rounded resize'>
+                    className='min-w-[100px] min-h-[40px] flex justify-center items-center rounded px-4'>
                     <div contentEditable className='outline-none font-bold text-center !p-0 !m-0 !leading-0'>
                       Metin Gir
                     </div>
@@ -264,9 +264,15 @@ export default function Index() {
               </div>
             }
             <label htmlFor="">
-              <button className='rounded bg-e15146 text-white font-bold p-3 w-full mt-2' onClick={handleAddTextField}>Yazı Alanı Ekle</button>
+              <button className='text-e15146 border border-e15146 border-dashed rounded font-bold p-3 w-full mt-2 flex gap-4 items-center justify-center' onClick={handleAddTextField}>
+                <IconPencilPlus />
+                Yazı Alanı Ekle
+              </button>
             </label>
-            <button className='rounded bg-e15146 text-white font-bold p-3 w-full mt-2' onClick={handleDownload}>Resmi İndir</button>
+            <button className='rounded bg-003049 text-white font-bold p-3 w-full mt-2 flex gap-4 items-center justify-center' onClick={handleDownload}>
+              <IconPhotoDown />
+              Resmi İndir
+            </button>
           </div>
         </div>
       ) : (
