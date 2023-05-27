@@ -116,13 +116,11 @@ export default function Index() {
   const handleDownload = () => {
     const imageContainer: any = document.querySelector('.image-container');
     if (imageContainer) {
-      // Hide text fields overflow
       const textFieldsContainer = imageContainer.querySelector('.text-fields-container');
       if (textFieldsContainer) {
         textFieldsContainer.style.overflow = 'hidden';
       }
 
-      // Hide close buttons
       const closeButtons = imageContainer.querySelectorAll('.close-button');
       closeButtons.forEach((button: any) => {
         button.style.display = 'none';
