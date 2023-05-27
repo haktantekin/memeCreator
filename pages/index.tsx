@@ -2,7 +2,7 @@ import Image from 'next/image';
 import React, { useState, useRef, ChangeEvent, DragEvent, CSSProperties } from 'react';
 import { IconTextSize } from "@tabler/icons-react";
 import { Checkbox, ColorInput, Select } from '@mantine/core';
-import html2canvas from 'html2canvas';
+
 
 interface TextField {
   id: number;
@@ -25,6 +25,7 @@ export default function Index() {
   const [selectedBGColorCheck, setSelectedBGColorCheck] = useState<boolean>(false);
   const dropAreaRef = useRef<any>(null);
   const textFieldRefs = useRef<HTMLDivElement[]>([]);
+  let domtoimage = require('dom-to-image');
 
   const handleImageUpload = (file: File) => {
     setSelectedImage(URL.createObjectURL(file));
@@ -127,27 +128,29 @@ export default function Index() {
         button.style.display = 'none';
       });
 
-      html2canvas(imageContainer).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = 'image.jpg';
-        link.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
-        link.style.position = 'fixed';
-        link.style.top = '0';
-        link.style.left = '0';
-        link.style.zIndex = '9999';
-        link.style.height = '0';
-        link.style.overflow = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+      domtoimage.toJpeg(imageContainer, { quality: 0.95 })
+        .then(function (dataUrl: any) {
+          const link = document.createElement('a');
+          link.download = 'image.jpg';
+          link.href = dataUrl
+          link.target = '_blank';
+          link.style.position = 'fixed';
+          link.style.top = '0';
+          link.style.left = '0';
+          link.style.zIndex = '9999';
+          link.style.height = '0';
+          link.style.overflow = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
 
-        if (textFieldsContainer) {
-          textFieldsContainer.style.overflow = 'visible';
-        }
-        closeButtons.forEach((button: any) => {
-          button.style.display = 'block';
+          if (textFieldsContainer) {
+            textFieldsContainer.style.overflow = 'visible';
+          }
+          closeButtons.forEach((button: any) => {
+            button.style.display = 'block';
+          });
         });
-      });
     }
   };
 
@@ -169,8 +172,8 @@ export default function Index() {
                 fontSize: `${field.fontSize}px`,
                 color: field.color,
                 background: field.background,
-                minWidth:100,
-                minHeight:40,
+                minWidth: 100,
+                minHeight: 40,
               };
               return (
                 <>
@@ -182,7 +185,7 @@ export default function Index() {
                     onDrag={(event) => handleTextFieldDrop(event, field.id)}
                     ref={handleTextFieldRef}
                     style={textFieldStyle}
-                    className='min-w-[100px] min-h-[40px] flex justify-center items-center rounded'>
+                    className='min-w-[100px] min-h-[40px] flex justify-center items-center rounded resize'>
                     <div contentEditable className='outline-none font-bold text-center !p-0 !m-0 !leading-0'>
                       Metin Gir
                     </div>
@@ -190,7 +193,8 @@ export default function Index() {
                       className="close-button absolute -top-4 -right-4 text-sm bg-e15146 text-white rounded-full !leading-none w-5 h-5"
                       onClick={() => {
                         const updatedFields = textFields.filter((item) => item.id !== field.id);
-                        setTextFields(updatedFields);}}>
+                        setTextFields(updatedFields);
+                      }}>
                       x
                     </button>
                   </div>
